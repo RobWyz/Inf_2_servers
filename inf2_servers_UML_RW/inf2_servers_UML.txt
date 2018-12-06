@@ -1,0 +1,45 @@
+@startuml
+class Product {
+ + name: str
+ + price: float
+ + __init__(self, name, price)
+ + __str__(self)
+ + __repr__(self)
+}
+
+class ServerError{
+}
+
+class TestClass{
+}
+
+class Server {
++ max_numb: int
++ __init__(self)
++ {abstract} search_for_product(self)
+}
+
+class DictServer{
++ dct: Dict
++ __init__(self, lst_of_products: Dict)
++ search_for_product(self, n: int): List[Product]
+}
+
+class LstServer{
++ lst: List[Product]
++ __init__(self, lst_of_products: List[Product])
++ search_for_product(self, n: int): List[Product]
+}
+
+class Client{
++ id_: int
++ server: Server
++ __init__(self, id_: str, server: Server)
++ compute_max_price(self, n: int): Union[float, int]
+}
+Exception <|-- ServerError
+Server <|-- DictServer
+Server <|-- LstServer
+Client o-- Server
+Server *-- Product
+@enduml

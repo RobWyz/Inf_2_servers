@@ -1,4 +1,4 @@
-# <Robert> <Wyżgolik>, <297475>
+# Robert Wyżgolik, 297475
 from typing import List, Union, Dict, TypeVar
 from functools import reduce
 import abc
@@ -178,4 +178,4 @@ class TestServer(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-# <Robert> <Wyżgolik>, <297475>
+# Robert Wyżgolik, 297475

@@ -65,7 +65,7 @@ class LstServer(Server):
             self.lst_of_products = lst_of_products
 
     def search_for_products(self, n: int = 1) -> List[Product]:
-        pattern = re.compile('^[a-zA-Z]{{{n}}}\\d{{2,3}}'.format(n=n))
+        pattern = re.compile('^[a-zA-Z]{{{n_letters}}}\\d{{2,3}}$'.format(n_letters=n))
         products_found = [p for p in self.lst_of_products if re.match(pattern, p.name) is not None]
         if len(products_found) > Server.max_numb:
             raise ServerError
@@ -81,7 +81,7 @@ class DictServer(Server):
             self.lst_of_products = {elem.name: elem for elem in lst_of_products}
 
     def search_for_products(self, n: int = 1) -> List[Product]:
-        pattern = re.compile('^[a-zA-Z]{{{n}}}\\d{{2,3}}'.format(n=n))
+        pattern = re.compile('^[a-zA-Z]{{{n_letters}}}\\d{{2,3}}$'.format(n_letters=n))
         products_found = [val for key, val in self.lst_of_products.items() if re.match(pattern, key) is not None]
         if len(products_found) > Server.max_numb:
             raise ServerError

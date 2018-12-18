@@ -51,8 +51,15 @@ class Server(metaclass=abc.ABCMeta):
     def __init__(self):
         pass
 
-    @abc.abstractmethod
     def search_for_products(self, n: int = 1) -> List[Product]:
+        pattern = re.compile('^[a-zA-Z]{{{n_letters}}}\\d{{2,3}}$'.format(n_letters=n))
+        products_found = [p for p in self.get_list() if re.match(pattern, p.name) is not None]
+        if len(products_found) > Server.max_numb:
+            raise ServerError
+        return sorted(products_found, key=lambda p: p.price)
+
+    @abc.abstractmethod
+    def get_list(self):
         raise NotImplementedError
 
 
@@ -64,12 +71,16 @@ class LstServer(Server):
         else:
             self.lst_of_products = lst_of_products
 
+    def get_list(self):
+        return self.lst_of_products
+'''
     def search_for_products(self, n: int = 1) -> List[Product]:
         pattern = re.compile('^[a-zA-Z]{{{n_letters}}}\\d{{2,3}}$'.format(n_letters=n))
         products_found = [p for p in self.lst_of_products if re.match(pattern, p.name) is not None]
         if len(products_found) > Server.max_numb:
             raise ServerError
         return sorted(products_found, key=lambda p: p.price)
+'''
 
 
 class DictServer(Server):
@@ -80,13 +91,17 @@ class DictServer(Server):
         else:
             self.lst_of_products = {elem.name: elem for elem in lst_of_products}
 
+    def get_list(self):
+        return [p for p in self.lst_of_products.values()]
+
+'''
     def search_for_products(self, n: int = 1) -> List[Product]:
         pattern = re.compile('^[a-zA-Z]{{{n_letters}}}\\d{{2,3}}$'.format(n_letters=n))
         products_found = [val for key, val in self.lst_of_products.items() if re.match(pattern, key) is not None]
         if len(products_found) > Server.max_numb:
             raise ServerError
         return sorted(products_found, key=lambda p: p.price)
-
+'''
 
 HelperType = TypeVar('HelperType', bound=Server)
 
